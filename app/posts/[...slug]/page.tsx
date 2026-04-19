@@ -37,7 +37,15 @@ export default async function PostPage({ params }: Props) {
     dateStyle: "long",
   }).format(new Date(post.date));
 
-  const folderTrail = slug.length > 1 ? slug.slice(0, -1).join(" / ") : null;
+  // Decode URL-encoded path segments for display
+  const decodedSlug = slug.map(seg => {
+    try {
+      return decodeURIComponent(seg);
+    } catch {
+      return seg;
+    }
+  });
+  const folderTrail = decodedSlug.length > 1 ? decodedSlug.slice(0, -1).join(" / ") : null;
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
