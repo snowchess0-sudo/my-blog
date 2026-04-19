@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostMarkdown } from "@/components/PostMarkdown";
-import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import { getPostBySegments, getPostSegmentPaths } from "@/lib/posts";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string[] }> };
 
 export function generateStaticParams() {
-  return getPostSlugs().map((slug) => ({ slug }));
+  return getPostSegmentPaths().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getPostBySegments(slug);
   if (!post) return { title: "未找到文章" };
   return {
     title: post.title,
@@ -28,26 +28,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getPostBySegments(slug);
   if (!post) notFound();
 
   const formattedDate = new Intl.DateTimeFormat("zh-CN", {
     dateStyle: "long",
   }).format(new Date(post.date));
 
+  const folderTrail = slug.length > 1 ? slug.slice(0, -1).join(" / ") : null;
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <nav className="text-sm text-zinc-500 dark:text-zinc-400">
+        <Link href="/" className="hover:text-foreground">
+          首页
+        </Link>
+        {" · "}
+        <Link href="/categories" className="hover:text-foreground">
+          分类
+        </Link>
+        {folderTrail ? (
+          <>
+            {" · "}
+            <span className="text-zinc-600 dark:text-zinc-500">{folderTrail}</span>
+          </>
+        ) : null}
+      </nav>
       <Link
         href="/"
-        className="text-sm text-zinc-600 hover:text-foreground dark:text-zinc-400"
+        className="mt-4 inline-block text-sm text-zinc-600 hover:text-foreground dark:text-zinc-400"
       >
-        ← 返回文章列表
+        ← 返回所有文章
       </Link>
-      <header className="mt-8 border-b border-zinc-200 pb-8 dark:border-zinc-800">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          {post.title}
-        </h1>
-        <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{formattedDate}</p>
+      <header className="mt-8">
+        <div className="border-t border-b border-zinc-200 py-8 dark:border-zinc-800">
+          <h1 className="text-center text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            {post.title}
+          </h1>
+        </div>
+        <p className="mt-6 text-sm text-zinc-600 dark:text-zinc-400">{formattedDate}</p>
         {post.tags && post.tags.length > 0 ? (
           <ul className="mt-4 flex flex-wrap gap-2">
             {post.tags.map((tag) => (

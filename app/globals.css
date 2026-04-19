@@ -3,7 +3,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f1721;
+  --muted: #6b7280;
+  --accent: #7c3aed; /* purple-600 */
+  --card-bg: #ffffff;
+  --radius: 12px;
 }
 
 @theme inline {
@@ -15,13 +19,69 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #071019;
+    --foreground: #e6eef6;
+    --muted: #9ca3af;
+    --accent: #8b5cf6;
+    --card-bg: #07131a;
   }
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(180deg, var(--background), rgba(124,58,237,0.02));
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
+
+/* small utility-like helpers for non-Tailwind pieces */
+.site-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(15,23,33,0.06);
+  padding: 1rem;
+}
+
+.site-logo {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: inherit;
+}
+
+/* typography plugin overrides for nicer content cards */
+.prose.card-content {
+  padding: 1.25rem;
+  border-radius: 10px;
+  background: transparent;
+}
+
+/* Section title used by listing pages */
+.section-title {
+  font-size: 2rem; /* ~text-3xl */
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+@media (min-width: 640px) {
+  .section-title { font-size: 2.25rem; /* ~text-4xl */ }
+}
+
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+pre::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.3);
+  border-radius: 999px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.muted-text { color: var(--muted); }
