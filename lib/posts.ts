@@ -107,7 +107,17 @@ function parseFrontmatter(raw: string, slug: string): Post | null {
 export function getPostBySegments(segments: string[]): Post | null {
   if (!segments.length) return null;
   const postsDirectory = getPostsDirectory();
-  const rel = path.join(...segments) + ".md";
+  
+  // Decode URL-encoded segments (for Chinese/special characters in file paths)
+  const decodedSegments = segments.map(seg => {
+    try {
+      return decodeURIComponent(seg);
+    } catch {
+      return seg;
+    }
+  });
+  
+  const rel = path.join(...decodedSegments) + ".md";
   const fullPath = path.join(postsDirectory, rel);
   if (!fs.existsSync(fullPath)) return null;
   const raw = fs.readFileSync(fullPath, "utf8");
