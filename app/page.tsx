@@ -17,7 +17,7 @@ export default function Home() {
         {posts.map((post) => (
           <li key={post.slug}>
             <Link
-              href={`/posts/${post.slug}`}
+              href={`/posts/${post.slug}?from=all`}
               className="group block rounded-lg border border-zinc-100 bg-white/60 px-4 py-3 shadow-sm transition hover:shadow-md hover:translate-y-0.5 dark:border-zinc-800 dark:bg-zinc-900/50"
             >
               <div className="flex items-center gap-3">

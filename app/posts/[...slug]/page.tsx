@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostMarkdown } from "@/components/PostMarkdown";
+import { PostReturnLink } from "@/components/PostReturnLink";
 import { getPostBySegments, getPostSegmentPaths } from "@/lib/posts";
 
 type Props = { params: Promise<{ slug: string[] }> };
@@ -55,12 +56,7 @@ export default async function PostPage({ params }: Props) {
           </>
         ) : null}
       </nav>
-      <Link
-        href="/"
-        className="mt-4 inline-block text-sm text-zinc-600 hover:text-foreground dark:text-zinc-400"
-      >
-        ← 返回所有文章
-      </Link>
+      <PostReturnLink />
       <header className="mt-8">
         <div className="border-t border-b border-zinc-200 py-8 dark:border-zinc-800">
           <h1 className="text-center text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">

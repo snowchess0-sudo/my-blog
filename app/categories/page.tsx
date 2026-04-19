@@ -23,7 +23,7 @@ function CategoryBranch({
     if (!node.post) return null;
     return (
       <li className="py-1">
-        <Link href={href} className="text-foreground hover:underline">
+        <Link href={`${href}?from=categories`} className="text-foreground hover:underline">
           {node.post.title}
         </Link>
       </li>
@@ -39,7 +39,7 @@ function CategoryBranch({
         <div className="ml-3 border-l border-zinc-200 pl-3 dark:border-zinc-800">
           {node.post ? (
             <div className="pt-1 pb-2">
-              <Link href={href} className="text-sm text-foreground underline-offset-2 hover:underline">
+              <Link href={`${href}?from=categories`} className="text-sm text-foreground underline-offset-2 hover:underline">
                 {node.post.title}
               </Link>
               <span className="ml-2 text-xs text-zinc-500">（此目录同名文章）</span>
