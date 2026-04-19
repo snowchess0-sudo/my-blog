@@ -85,3 +85,30 @@ img {
 }
 
 .muted-text { color: var(--muted); }
+
+/* Code highlighting overrides for dark mode */
+@media (prefers-color-scheme: dark) {
+  pre {
+    background-color: #1e293b !important;
+    border: 1px solid #334155;
+  }
+  
+  code {
+    color: #e2e8f0;
+  }
+  
+  .hljs {
+    background: #1e293b;
+    color: #e2e8f0;
+  }
+  
+  .hljs-attr, .hljs-attribute { color: #7dd3fc; }
+  .hljs-string { color: #86efac; }
+  .hljs-number { color: #fbbf24; }
+  .hljs-literal { color: #fbbf24; }
+  .hljs-function { color: #93c5fd; }
+  .hljs-keyword { color: #c4b5fd; }
+  .hljs-title { color: #93c5fd; }
+  .hljs-section { color: #60a5fa; }
+  .hljs-built_in { color: #86efac; }
+}
